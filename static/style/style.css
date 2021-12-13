@@ -1,0 +1,135 @@
+.firstdiv,
+form {
+    margin-top: 80px;
+}
+nav.navbar.navbar-expand-lg.navbar-light.bg-light,
+.detailsrow,
+.question_table {
+    width: 100%;
+}
+.question_table {
+    border: rgba(0, 0, 0, 0.35) 3px dashed;
+}
+
+.question_title {
+    width: 80%;
+}
+
+a.navbar-brand,
+a.nav-link {
+    padding: 8px;
+}
+
+a.navbar-brand {
+    margin: 16px 8px 16px 16px;
+    background-color: #75ccf5cc;
+}
+
+/* inline flex */
+.container-fluid,
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    display: inline-flex;
+}
+
+/* flex */
+.container-fluid,
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    height: auto;
+    background-color: #accce9;
+}
+
+.detailbutton,
+a.nav-link,
+.navbar-nav {
+    margin: 8px;
+}
+
+a.nav-link {
+    float: left;
+    background-color: aquamarine;
+}
+
+.detailnavbar,
+a.nav-link.disabled {
+    display: inline;
+}
+
+.detailbutton:hover,
+a.navbar-brand:hover,
+a.nav-link:hover {
+    background-color: aqua;
+}
+
+.titlequestion {
+    font-size: 25px;
+}
+
+.detailsrow {
+    background-color: bisque;
+}
+
+.detailnavbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.detailnavbar li p {
+    font-size: 18px;
+    margin: 5px;
+    padding: 5px;
+    background-color: aliceblue;
+}
+
+a.nav-link.disabled,
+.floatbutton {
+    float: right;
+}
+
+.titlequestion,
+.questionmessage,
+.detailnavbar li p,
+.detailbutton,
+.addanswerbutton {
+    color: black;
+}
+
+a.nav-link,
+.detailnavbar li,
+a.navbar-brand,
+.detailbutton {
+    display: inline-block;
+}
+.detailbutton {
+    padding: 6px;
+    font-size: 12px;
+    background-color: beige;
+}
+
+.titlequestion,
+.addanswerbutton {
+    text-decoration: none;
+}
+.addanswerbutton {
+    display: block;
+    background-color: burlywood;
+}
+
+.questionmessage,
+nav.navbar.navbar-expand-lg.navbar-light.bg-light,
+.addanswerbutton {
+    font-size: 20px;
+}
+
+form {
+    text-align: center;
+}

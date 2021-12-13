@@ -1,0 +1,75 @@
+{% extends "base_template.html" %} {% block title %} {% endblock %} {% block
+content %}
+<div class="firstdiv"></div>
+{% for question in questions %}
+<div>
+    <table class="question_table">
+        <tr>
+            <td class="question_title">
+                <a
+                    href="{{ url_for('question_page', question_id=question.id) }}"
+                    class="titlequestion"
+                    >{{ question.title }}</a
+                >
+            </td>
+            <td rowspan="2">
+                {% if question.image %}
+                <img
+                    src="{{ url_for('static', filename=question.image) }}"
+                    width="20%"
+                    alt="Question Image"
+                />
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="questionmessage">{{ question.message }}</p>
+            </td>
+        </tr>
+        <tr class="detailsrow">
+            <td colspan="2">
+                <ul class="detailnavbar">
+                    <li>{{ question.vote_number }} vote score</li>
+                    <li>{{ question.view_number }} views</li>
+                    <li>{{ question.answer_number }} answers</li>
+                    <li>Submission time: {{ question.submission_time }}</li>
+                    <li class="floatbutton">
+                        <a
+                            href="{{ url_for('edit_question_page', question_id=question.id) }}"
+                            class="detailbutton"
+                            >Edit</a
+                        >
+                    </li>
+                    <li class="floatbutton">
+                        <a
+                            href="{{ url_for('delete_question',question_id=question.id) }}"
+                            class="detailbutton"
+                            >Delete</a
+                        >
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+
+<ul class="uledit">
+    <li>
+        <a
+            class="editli"
+            href="{{ url_for('edit_question',question_id=question.id) }}"
+        >
+            Edit</a
+        >
+    </li>
+    <li class="editli">
+        <a
+            class="editli"
+            href="{{ url_for('delete_question',question_id=question.id) }}"
+            >Delete</a
+        >
+    </li>
+</ul>
+{% endblock %}

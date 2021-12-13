@@ -1,0 +1,35 @@
+{% extends "base_template.html" %} {% block title %} {% endblock %} {% block
+content %} 
+<form
+    action="{{ url_for('add_question_page') }}"
+    enctype="multipart/form-data"
+    method="post"
+>
+    <label for="question title">Question Title:</label><br />
+    <textarea
+        id="question_title"
+        name="question_title"
+        rows="1"
+        cols="60"
+    ></textarea
+    ><br />
+    <label for="question_message">Question Messsage:</label><br />
+    <textarea
+        id="question_message"
+        name="question_message"
+        rows="1"
+        cols="60"
+    ></textarea
+    ><br />
+    <label for="image"> Add image:</label><br />
+    <input
+        name="image"
+        id="image"
+        type="file"
+        accept="image/*"
+        alt="Add question image"
+    />
+    <br />
+    <button type="submit">ADD QUESTION</button>
+</form>
+{% endblock %}
