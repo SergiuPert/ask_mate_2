@@ -132,3 +132,107 @@ def get_answer_seq_value(cursor):
     cursor.execute(query)
     return cursor.fetchone()
 
+
+@database_connection.connection_handler
+def add_comment_question(cursor, message, question_id):
+    query = """
+            INSERT INTO comment(message, question_id) 
+            VALUES (%(message)s, %(question_id)s);"""
+    cursor.execute(query, {"message": message, "question_id": question_id})
+
+
+@database_connection.connection_handler
+def add_comment_answer(cursor, message, answer_id):
+    query = """
+            INSERT INTO comment(message, answer_id) 
+            VALUES (%(message)s, %(answer_id)s);"""
+    cursor.execute(query, {"message": message, "answer_id": answer_id})
+
+
+@database_connection.connection_handler
+def get_question_by_search(cursor, search_term):
+    query = """
+        SELECT submission_time, view_number, vote_number, title, message, image
+        FROM question
+        WHERE title=%(search_term)s
+        OR message=%(search_term)s
+        ORDER BY submission_time
+            ;"""
+    cursor.execute(query, {"search_term": search_term})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def delete_comment(cursor, comment_id):
+    query = """
+                      DELETE FROM comment
+                      WHERE id=%(id)s
+                      ;"""
+    cursor.execute(query, {"id": int(comment_id)})
+
+
+@database_connection.connection_handler
+def update_comment(cursor):
+    pass
+
+
+@database_connection.connection_handler
+def get_comment_by_id(cursor, comment_id):
+    query = """
+                    SELECT * 
+                    FROM comment
+                    WHERE id = %(id)s
+                    ;"""
+    cursor.execute(query, {"id": int(comment_id)})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def get_question_by_search(cursor, search_term):
+    query = """
+        SELECT submission_time, view_number, vote_number, title, message, image
+        FROM question
+        WHERE LOWER(title) LIKE LOWER(%(search_term)s)
+        OR LOWER(message) LIKE LOWER(%(search_term)s)
+        ORDER BY submission_time
+            ;"""
+    cursor.execute(query, {"search_term": ("%" + search_term + "%")})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_latest_five_questions(cursor):
+    query = """
+        SELECT *
+        FROM question
+        ORDER BY id DESC  
+            ;"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_answer_comments(cursor, answer):
+    query = """
+            SELECT *
+            FROM comment
+            WHERE answer_id = %(id)s
+            ;"""
+    cursor.execute(query, answer)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_question_comments(cursor, question):
+    query = """
+            SELECT *
+            FROM comment
+            WHERE question_id = %(id)s
+            ;"""
+    cursor.execute(query, question)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def add_tag(cursor ):
+    pass
