@@ -17,35 +17,61 @@ ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCAD
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
 
 DROP TABLE IF EXISTS public.question;
-CREATE TABLE question (
-    id serial NOT NULL,
-    submission_time timestamp without time zone,
-    view_number integer,
-    vote_number integer,
-    title text,
-    message text,
-    image text
-);
-
 DROP TABLE IF EXISTS public.answer;
-CREATE TABLE answer (
-    id serial NOT NULL,
-    submission_time timestamp without time zone,
-    vote_number integer,
-    question_id integer,
-    message text,
-    image text
+DROP TABLE IF EXISTS public.comment;
+create table question
+(
+    id              serial
+        constraint pk_question_id
+            primary key,
+    submission_time timestamp default CURRENT_TIMESTAMP,
+    view_number     integer   default 0,
+    vote_number     integer   default 0,
+    title           text,
+    message         text,
+    image           text      default ''::text
 );
 
-DROP TABLE IF EXISTS public.comment;
-CREATE TABLE comment (
-    id serial NOT NULL,
-    question_id integer,
-    answer_id integer,
-    message text,
-    submission_time timestamp without time zone,
-    edited_count integer
+alter table question
+    owner to postgres;
+
+create table answer
+(
+    id              serial
+        constraint pk_answer_id
+            primary key,
+    submission_time timestamp default CURRENT_TIMESTAMP,
+    vote_number     integer   default 0,
+    question_id     integer
+        constraint fk_question_id
+            references question,
+    message         text,
+    image           text      default ''::text
 );
+
+alter table answer
+    owner to postgres;
+
+create table comment
+(
+    id              serial
+        constraint pk_comment_id
+            primary key,
+    question_id     integer
+        constraint fk_question_id
+            references question,
+    answer_id       integer
+        constraint fk_answer_id
+            references answer,
+    message         text,
+    submission_time timestamp default CURRENT_TIMESTAMP,
+    edited_count    integer   default 0
+);
+
+alter table comment
+    owner to postgres;
+
+
 
 
 DROP TABLE IF EXISTS public.question_tag;

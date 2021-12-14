@@ -20,7 +20,8 @@ def question_page(question_id):
     question.update({"view_number": question["view_number"] + 1})
     database_manager.update_question(question)
     question = util.add_answer_to_question(question)
-    return render_template("question.html", question=question)
+    answers = database_manager.get_answers_for_question(question)
+    return render_template("question.html", question=question, answers=answers)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
