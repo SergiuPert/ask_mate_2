@@ -3,6 +3,10 @@ import os
 import psycopg2
 import psycopg2.extras
 
+import dotenv
+
+dotenv.load_dotenv()
+
 
 def get_connection_string():
     # setup connection string

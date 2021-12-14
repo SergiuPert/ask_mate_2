@@ -9,9 +9,12 @@ import database_manager
 UPLOADS_PATH = join(dirname(realpath(__file__)), "static\\img")
 
 
-def upload_picture(file):
+def upload_picture(file, owner_table):
     if file:
-        filename = secure_filename(file.filename)
+        file_name = file.filename
+        filename = owner_table + "_id_" + str(database_manager.get_question_seq_value().get("last_value")) \
+            if owner_table == 'question' else str(database_manager.get_answer_seq_value().get("last_value")) + \
+            '.' + file_name.split('.')[1]
         path_to_file = "/images/" + filename
         file.save(os.path.join("static/images/", filename))
         return path_to_file

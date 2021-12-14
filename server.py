@@ -31,7 +31,7 @@ def add_question_page():
         database_manager.add_question(
             title=request.form.get("question_title"),
             message=request.form.get("question_message"),
-            image=util.upload_picture(request.files.get("image")),
+            image=util.upload_picture(request.files.get("image"), "question"),
         )
         return redirect(url_for("list_page"))
     return render_template("add_question.html")
@@ -43,7 +43,7 @@ def add_answer_page(question_id):
         database_manager.add_answer(
             question_id=question_id,
             message=request.form.get("answer"),
-            image=util.upload_picture(request.files.get("image")),
+            image=util.upload_picture(request.files.get("image"),"answer"),
         )
         return redirect(url_for("question_page", question_id=question_id))
     return render_template("add_answer.html", question_id=question_id)
