@@ -54,3 +54,10 @@ def keep_view_question_untouch(question_id):
     question.update({"view_number": int(question.get("view_number")) - 1})
     database_manager.update_question(question)
     return question
+
+def get_first_five_dicts(dicts):
+    first_five =[]
+    for index in range(5):
+        first_five.append(dicts[index])
+    return first_five
+

@@ -74,4 +74,13 @@ content %}
 {% endfor %}
 
 
+    <div>
+        <form action="{{ url_for('search_question') }}" method="post">
+            <label for="search">Search question: </label>
+            <input type="text" name="search" id="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
 {% endblock %}
