@@ -37,6 +37,14 @@
                                 >Vote down</a
                             >
                         </li>
+                        <li class="floatbutton">
+                            <a
+                                class="detailbutton"
+                                href="{{url_for('add_question_comment_page', question_id=question.id)  }}"
+                            >
+                                Reply
+                            </a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -64,8 +72,42 @@
                 </td>
             </tr>
         </table>
+            {% for comment in question.comments %}
+{#                <div class="comment_div">#}
+                    <table class="comment_table">
+                        <tr>
+                            <td><p class="comment_p">{{ comment.message }}</p></td>
+                        </tr>
+
+                        <tr class="detailsrow">
+                            <td>
+                                <ul class="detailnavbar">
+                                    <li>{{ comment.edited_count }} times edited</li>
+                                    <li>Submission time: {{ comment.submission_time }}</li>
+                                    <li class="floatbutton">
+                                        <a
+                                            href="{{ url_for('delete_comment_page', comment_id=comment.id ) }}"
+                                            class="detailbutton"
+                                            >Delete</a
+                                        >
+                                    </li>
+                                    <li class="floatbutton">
+                                        <a
+                                            href="{{ url_for('edit_comment_page', comment_id=comment.id) }}"
+                                            class="detailbutton"
+                                            >Edit</a
+                                        >
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+{#                </div>#}
+            {% endfor %}
+
     </div>
-    {% for answer in answers %}
+
+    {% for answer in question.answers %}
         <div class="firstdiv">
             <table class="question_table">
                 <tr class="detailsrow">
@@ -101,6 +143,14 @@
                                     >Vote down</a
                                 >
                             </li>
+                            <li class="floatbutton">
+                                <a
+                                    class="detailbutton"
+                                    href="{{ url_for('add_answer_comment_page', answer_id=answer.id)  }}"
+                                >
+                                    Reply
+                                </a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -121,6 +171,38 @@
                 </tr>
             </table>
         </div>
+            {% for comment in answer.comments %}
+
+                    <table class="comment_table">
+                        <tr>
+                            <td>{{ comment.message }}</td>
+                        </tr>
+
+                        <tr class="detailsrow">
+                            <td>
+                                <ul class="detailnavbar">
+                                    <li>{{ comment.edited_count }} times edited</li>
+                                    <li>Submission time: {{ comment.submission_time }}</li>
+                                    <li class="floatbutton">
+                                        <a
+                                            href="{{ url_for('delete_comment_page', comment_id=comment.id ) }}"
+                                            class="detailbutton"
+                                            >Delete</a
+                                        >
+                                    </li>
+                                    <li class="floatbutton">
+                                        <a
+                                            href="{{ url_for('edit_comment_page', comment_id=comment.id) }}"
+                                            class="detailbutton"
+                                            >Edit</a
+                                        >
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+            {% endfor %}
     {% endfor %}
     <a
         class="addanswerbutton"

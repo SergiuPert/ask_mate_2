@@ -7,6 +7,12 @@ app = Flask(__name__)
 
 
 @app.route("/")
+def main_page():
+    questions = database_manager.get_latest_five_questions()
+    first_five = util.get_first_five_dicts(questions)
+    return render_template("list.html", questions=first_five)
+
+
 @app.route("/list")
 def list_page():
     questions = database_manager.get_questions()
@@ -19,9 +25,9 @@ def question_page(question_id):
     question = database_manager.get_question(question_id)
     question.update({"view_number": question["view_number"] + 1})
     database_manager.update_question(question)
-    question = util.add_answer_to_question(question)
-    answers = database_manager.get_answers_for_question(question)
-    return render_template("question.html", question=question, answers=answers)
+    question = util.add_answers_to_question(question)
+    question = util.add_comments_to_question(question)
+    return render_template("question.html", question=question)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -44,7 +50,7 @@ def add_answer_page(question_id):
         database_manager.add_answer(
             question_id=question_id,
             message=request.form.get("answer"),
-            image=util.upload_picture(request.files.get("image"),"answer"),
+            image=util.upload_picture(request.files.get("image"), "answer"),
         )
         return redirect(url_for("question_page", question_id=question_id))
     return render_template("add_answer.html", question_id=question_id)

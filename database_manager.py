@@ -23,8 +23,8 @@ def add_answer(cursor, question_id, message, image):
 def get_questions(cursor):
     query = """
             SELECT * 
-            FROM question;
-            """
+            FROM question
+            ;"""
     cursor.execute(query)
     return cursor.fetchall()
 

@@ -1,9 +1,15 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('list_page') }}">Home</a>
+            <a class="navbar-brand" href="{{ url_for('main_page') }}">Home</a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                    <a
+                        class="nav-link active"
+                        aria-current="page"
+                        href="{{ url_for('list_page') }}"
+                        >List questions</a
+                    >
                     <a
                         class="nav-link active"
                         aria-current="page"
@@ -11,7 +17,7 @@
                         >Add question</a
                     >
                     <a class="nav-link disabled" style="float: right"
-                        >AskMate 1</a
+                        >AskMate - by L.A.S (VEGAS)</a
                     >
                 </div>
             </div>

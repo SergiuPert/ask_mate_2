@@ -1,3 +1,7 @@
+body {
+    text-align: justify;
+}
+
 .firstdiv,
 form {
     margin-top: 80px;
@@ -9,6 +13,17 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light,
 }
 .question_table {
     border: rgba(0, 0, 0, 0.35) 3px dashed;
+}
+
+.comment_table {
+    width: 70%;
+    margin: 20px 20px 20px 80px;
+    border: rgba(0, 0, 0, 0.35) 2px dashed;
+}
+
+.comment_div{
+    margin: 20px 20px 20px 80px;
+    padding: 5px 20px 20px;
 }
 
 .question_title {
@@ -72,7 +87,8 @@ a.nav-link:hover {
     font-size: 25px;
 }
 
-.detailsrow {
+.detailsrow,
+.comment_div{
     background-color: bisque;
 }
 
