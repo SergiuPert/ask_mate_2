@@ -164,7 +164,6 @@ def get_question_by_search(cursor, search_term):
 
 @database_connection.connection_handler
 def delete_comment(cursor, comment):
-    print(comment)
     query = """
           DELETE FROM comment
           WHERE id = %(id)s
@@ -205,7 +204,7 @@ def get_question_by_search(cursor, search_term):
         ORDER BY submission_time
             ;"""
     cursor.execute(query, {"search_term": ("%" + search_term + "%")})
-    return cursor.fetchall()
+    return cursor.fetchall(), search_term
 
 
 @database_connection.connection_handler
@@ -249,6 +248,7 @@ def add_tag(cursor, name):
                 LOWER(%(name)s)
                 )   
             ;"""
+    cursor.execute(query, {"name": name})
 
 
 @database_connection.connection_handler
@@ -274,6 +274,46 @@ def get_tag_by_name(cursor, tag_name):
     return cursor.fetchone()
 
 
-# @database_connection.connection_handler
-# def get_tag_relation(cursor, question_id, tag_id):
-#
+@database_connection.connection_handler
+def get_tag_by_id(cursor, tag_id):
+    query = """
+            SELECT *
+            FROM tag 
+            WHERE id = %(id)s
+                ;"""
+    cursor.execute(query, {"id": tag_id})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def get_sorted_questions(cursor, sort_by, order_direction):
+    query = f"""
+                SELECT *
+                FROM question 
+                order by {sort_by} {order_direction}
+                    ;"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_tag_relation(cursor, question_id):
+    query = """
+                SELECT *
+                FROM question_tag 
+                WHERE question_id = %(question_id)s 
+                    ;"""
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def delete_tag_relation(cursor, question_id, tag_id):
+    query = """
+            DELETE FROM question_tag
+            WHERE 
+                question_id = %(question_id)s
+            AND
+                tag_id = %(tag_id)s
+            ;"""
+    cursor.execute(query, {"question_id": question_id, "tag_id": tag_id})

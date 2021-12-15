@@ -36,15 +36,12 @@ def add_answers_to_question(question):
 
 def add_comments_to_question(question):
     comments = database_manager.get_question_comments(question)
-    print(comments)
     question.update({"comments": comments})
     return question
 
 
 def add_comments_to_answer(answer):
     comments = database_manager.get_answer_comments(answer)
-    print(comments)
-
     answer.update({"comments": comments})
     return answer
 
@@ -65,3 +62,25 @@ def get_first_five_dicts(dicts):
 
 def add_tag_to_question(question_id, tag_name):
     tag = database_manager.get_tag_by_name(tag_name)
+    if tag.get("id"):
+        database_manager.add_tag_relation(question_id, tag.get("id"))
+    else:
+        database_manager.add_tag(tag_name)
+        tag = database_manager.get_tag_by_name(tag_name)
+        database_manager.add_tag_relation(question_id, tag.get("id"))
+
+
+def get_tag_for_question(question):
+    question_tags = database_manager.get_tag_relation(question.get("id"))
+    try:
+        tags = [database_manager.get_tag_by_id(tag.get("tag_id")) for tag in question_tags]
+        question.update({"tags": tags})
+    except:
+        print("No tag")
+    return question
+
+
+def get_tag_for_questions(questions):
+    for index in range(len(questions)):
+        questions[index] = get_tag_for_question(questions[index])
+    return questions

@@ -1,6 +1,27 @@
 {% extends "base_template.html" %} {% block title %} {% endblock %} {% block
 content %}
+<div>
+    <form action="{{ url_for('sort_by') }}">
+                    <label for="sort_by">Sort by:</label>
+                    <select id="sort_by" name="sort_by">
+                        <option value="id">ID</option>
+                        <option value="title">Title</option>
+                        <option value="submission_time">Submission time</option>
+                        <option value="vote_number">Vote Number</option>
+                    </select>
+                    <label for="order_direction">Order:</label>
+                    <select id="order_direction" name="order_direction">
+                        <option value="asc">ASC</option>
+                        <option value="desc">DESC</option>
+                    </select>
+                    <button type="submit">
+                        Sort questions
+                    </button>
+                </form>
+</div>
+
 <div class="firstdiv"></div>
+
 {% for question in questions %}
 <div>
     <table class="question_table">
@@ -34,6 +55,28 @@ content %}
                     <li>{{ question.view_number }} views</li>
                     <li>{{ question.answer_number }} answers</li>
                     <li>Submission time: {{ question.submission_time }}</li>
+                    <li>
+                        {% if question.tags %}
+                            Tags:
+                                {% for tag in question.tags %}
+                                    {{ tag.name }}
+                                    <a
+                                        href="{{ url_for('delete_tag_page', question_id=question.id, tag_id=tag.id) }}"
+                                        class="detailbutton"
+                                    >
+                                        Delete {{ tag.name }}
+                                    </a>
+                                {% endfor %}
+                        {% endif %}
+                    </li>
+                    <li>
+                        <a
+                                href="{{ url_for('add_tag_page',question_id=question.id) }}"
+                                class="detailbutton"
+                            >
+                                Add tag
+                            </a>
+                    </li>
                     <li class="floatbutton">
                         <a
                             href="{{ url_for('edit_question_page', question_id=question.id) }}"
@@ -75,9 +118,9 @@ content %}
 
 
     <div>
-        <form action="{{ url_for('search_question') }}" method="post">
-            <label for="search">Search question: </label>
-            <input type="text" name="search" id="search">
+        <form action="{{ url_for('search_question') }}">
+            <label for="q">Search question: </label>
+            <input type="text" name="q" id="q">
             <button type="submit">Search</button>
         </form>
     </div>
