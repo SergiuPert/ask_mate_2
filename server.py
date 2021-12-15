@@ -169,8 +169,10 @@ def add_answer_comment_page(answer_id):
 
 @app.route("/search")
 def search_question():
-    questions = database_manager.get_question_by_search(request.form.get("search"))
-    return render_template("list.html", questions=questions)
+    questions, search_term = database_manager.get_question_by_search(request.args.get("q"))
+    questions = util.add_answer_number(questions)
+    questions = util.get_tag_for_questions(questions)
+    return render_template("list.html", questions=questions, search_term=search_term)
 
 
 @app.route("/comment/<comment_id>/edit", methods=["GET", "POST"])

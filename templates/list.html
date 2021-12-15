@@ -29,9 +29,19 @@ content %}
             <td class="question_title">
                 <a
                     href="{{ url_for('question_page', question_id=question.id) }}"
-                    class="titlequestion"
-                    >{{ question.title }}</a
-                >
+                    class="titlequestion">
+                    {% if search_term %}
+                        {% for word in question.title.split(" ") %}
+                            {% if search_term in word.lower() %}
+                            <mark>{{ word }}</mark>
+                            {%  else %}
+                            {{ word }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {{ question.title }}
+                    {% endif %}
+                </a>
             </td>
             <td rowspan="2">
                 {% if question.image %}
@@ -45,7 +55,19 @@ content %}
         </tr>
         <tr>
             <td>
-                <p class="questionmessage">{{ question.message }}</p>
+                <p class="questionmessage">{{ question.message }}
+                    {% if search_term %}
+                        {% for word in question.message.split(" ") %}
+                            {% if search_term in word.lower() %}
+                            <mark>{{ word }}</mark>
+                            {%  else %}
+                            {{ word }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {{ question.message }}
+                    {% endif %}
+                </p>
             </td>
         </tr>
         <tr class="detailsrow">

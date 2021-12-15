@@ -159,7 +159,7 @@ def get_question_by_search(cursor, search_term):
         ORDER BY submission_time
             ;"""
     cursor.execute(query, {"search_term": search_term})
-    return cursor.fetchall()
+    return cursor.fetchall(), search_term
 
 
 @database_connection.connection_handler
