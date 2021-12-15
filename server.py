@@ -159,26 +159,25 @@ def add_answer_comment_page(answer_id):
     answer = database_manager.get_answer_by_id(answer_id)
     if request.method == "POST":
         database_manager.add_comment_answer(
-            answer_id=answer.get('id'), message=request.form.get("comment_message")
+            answer_id=answer.get("id"), message=request.form.get("comment_message")
         )
         return redirect(url_for("question_page", question_id=answer.get("question_id")))
-    return render_template(
-        "add_answer_comment.html", answer_id=answer_id
-    )
+    return render_template("add_answer_comment.html", answer_id=answer_id)
 
 
 @app.route("/search_questions", methods=["POST"])
 def search_question():
     questions = database_manager.get_question_by_search(request.form.get("search"))
-    return render_template('list.html', questions=questions)
+    return render_template("list.html", questions=questions)
 
 
-@app.route("/comment/<comment_id>/edit", methods=['GET', 'POST'])
+@app.route("/comment/<comment_id>/edit", methods=["GET", "POST"])
 def edit_comment_page(comment_id):
     comment = database_manager.get_comment_by_id(comment_id)
     if request.method == "POST":
         comment.update({"message": request.form.get("message")})
-        database_manager.update_answer(comment)
+        comment.update({"edited_count": (comment.get("edited_count") + 1)})
+        database_manager.update_comment(comment)
         return redirect(
             url_for(
                 "question_page",
@@ -191,17 +190,20 @@ def edit_comment_page(comment_id):
 @app.route("/comments/<comment_id>/delete")
 def delete_comment_page(comment_id):
     comment = database_manager.get_comment_by_id(comment_id)
-    database_manager.delete_comment(comment_id)
+    database_manager.delete_comment(comment)
+    if not comment.get("question_id"):
+        answer = database_manager.get_answer_by_id(comment.get("answer_id"))
+        comment.update({"question_id": answer.get("question_id")})
     util.keep_view_question_untouch(comment.get("question_id"))
-    return redirect(url_for("question_page", comment_id=comment.get("question_id")))
+    return redirect(url_for("question_page", question_id=comment.get("question_id")))
 
 
 @app.route("/question/<question_id>/new-tag")
 def add_tag_page(question_id):
     if request.method == "POST":
-        database_manager.add_tag(
+        database_manager.add_tag_to_question(
             question_id=question_id,
-            message=request.form.get("tag"),
+            name=request.form.get("tag"),
         )
         return redirect(url_for("question_page", question_id=question_id))
     return render_template("add_tag.html", question_id=question_id)

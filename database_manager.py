@@ -163,17 +163,25 @@ def get_question_by_search(cursor, search_term):
 
 
 @database_connection.connection_handler
-def delete_comment(cursor, comment_id):
+def delete_comment(cursor, comment):
+    print(comment)
     query = """
-                      DELETE FROM comment
-                      WHERE id=%(id)s
-                      ;"""
-    cursor.execute(query, {"id": int(comment_id)})
+          DELETE FROM comment
+          WHERE id = %(id)s
+           ;"""
+    cursor.execute(query, comment)
 
 
 @database_connection.connection_handler
-def update_comment(cursor):
-    pass
+def update_comment(cursor, comment):
+    query = """
+            UPDATE comment
+            SET 
+            message = %(message)s,
+            edited_count = %(edited_count)s
+            WHERE id=%(id)s
+            ;"""
+    cursor.execute(query, comment)
 
 
 @database_connection.connection_handler
@@ -234,5 +242,38 @@ def get_question_comments(cursor, question):
 
 
 @database_connection.connection_handler
-def add_tag(cursor ):
-    pass
+def add_tag(cursor, name):
+    query = """
+        INSERT INTO tag (name)
+        VALUES  (
+                LOWER(%(name)s)
+                )   
+            ;"""
+
+
+@database_connection.connection_handler
+def add_tag_relation(cursor, question_id, tag_id):
+    query = """
+        INSERT INTO question_tag
+        VALUES  (
+                %(question_id)s,
+                %(tag_id)s
+                )   
+            ;"""
+    cursor.execute(query, {"question_id": question_id, "tag_id": tag_id})
+
+
+@database_connection.connection_handler
+def get_tag_by_name(cursor, tag_name):
+    query = """
+            SELECT *
+            FROM tag 
+            WHERE name = LOWER(%(name)s) 
+                ;"""
+    cursor.execute(query, {"name": tag_name})
+    return cursor.fetchone()
+
+
+# @database_connection.connection_handler
+# def get_tag_relation(cursor, question_id, tag_id):
+#
